@@ -155,7 +155,7 @@ function vHome(){
 function reminderCard(){
   if(NATIVE){let t="20:00";try{t=window.Android.getReminder()||"20:00"}catch(e){}
     return`<div class="card"><div class="row between"><div><h3>⏰ Напоминание</h3><p class="small mute">Каждый день в это время придёт уведомление</p></div><input type="time" id="rem" value="${esc(t)}" style="width:120px"></div></div>`}
-  return`<div class="note">⏰ Напоминание стоит в календаре телефона: каждый день в 20:00.</div>`;
+  return`<div class="note">⏰ Ежедневное напоминание приходит из приложения English Daily на телефоне.</div>`;
 }
 function vPlan(){
   const c=curDay(),cm=monthOf(info(c).week);if(openMonth===null)openMonth=cm;
