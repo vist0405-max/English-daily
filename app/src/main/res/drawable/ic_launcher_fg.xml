@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- Пузырь речи -->
+    <path android:fillColor="#F6F1E9"
+        android:pathData="M30,32h48a8,8 0,0 1,8 8v22a8,8 0,0 1,-8 8H50l-12,10v-10h-8a8,8 0,0 1,-8 -8V40a8,8 0,0 1,8 -8z" />
+    <!-- Буквы «En» -->
+    <path android:fillColor="#E8613C"
+        android:pathData="M38,41h13v4h-9v4h8v4h-8v4h9v4H38zM55,47h4v2c1.2,-1.5 2.9,-2.3 5,-2.3c3.6,0 6,2.4 6,6.3V61h-4v-7.5c0,-2 -1.2,-3.2 -3,-3.2c-2,0 -4,1.4 -4,4V61h-4z" />
+</vector>
