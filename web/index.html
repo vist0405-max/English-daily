@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>English Daily — английский с нуля до B2</title>
+<title>English Daily — английский и узбекский с нуля</title>
 <meta name="theme-color" content="#1f2a44">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
@@ -97,6 +97,7 @@ input[type=search],input[type=time],input[type=text]{width:100%;border-radius:14
 .tag{display:inline-block;font-size:12px;font-weight:600;padding:3px 9px;border-radius:8px;background:var(--soft);color:var(--acc)}
 .topics{display:flex;flex-wrap:wrap;gap:8px}
 .topics button{padding:9px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:500 14px Onest,sans-serif;cursor:pointer}
+.whos{display:flex;gap:8px;flex-wrap:wrap}
 .who{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 8px;font:inherit;color:var(--ink);cursor:pointer;margin-bottom:2px}
 .who span:first-child{font-size:20px}
 .prof{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
@@ -109,6 +110,13 @@ input[type=search],input[type=time],input[type=text]{width:100%;border-radius:14
 .avs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .avs button{width:42px;height:42px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);font-size:21px;cursor:pointer;padding:0}
 .avs button.on{border-color:var(--acc);background:var(--soft)}
+.lang{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.lang.on{border-color:var(--acc);box-shadow:0 0 0 2px var(--soft)}
+.lang b{display:block;font-size:17px}.lang .mute{display:block}
+.lang .fl{font-size:36px}
+.lang .bar{display:block;margin:8px 0 4px}
+.lang .chk{color:#fff}.lang.on .chk{background:var(--ok);border-color:var(--ok)}
+.avs button.wide{width:auto;padding:0 14px;font:600 15px Onest,sans-serif;color:var(--ink)}
 nav.tabs{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;padding:6px 0 calc(6px + env(safe-area-inset-bottom));z-index:5}
 nav.tabs button{flex:1;max-width:130px;background:none;border:0;color:var(--mute);font:500 12px Onest,sans-serif;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px;cursor:pointer}
 nav.tabs button span{font-size:20px}
@@ -133,6 +141,12 @@ details summary{cursor:pointer;font-weight:600;padding:4px 0}
 <script src="course/m10.js"></script>
 <script src="course/m11.js"></script>
 <script src="course/m12.js"></script>
+<script src="course/uz/u01.js"></script>
+<script src="course/uz/u02.js"></script>
+<script src="course/uz/u03.js"></script>
+<script src="course/uz/u04.js"></script>
+<script src="course/uz/u05.js"></script>
+<script src="course/uz/u06.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -50,7 +50,7 @@ object Reminder {
         if (nm.getNotificationChannel(CHANNEL) == null) {
             nm.createNotificationChannel(
                 NotificationChannel(CHANNEL, "Урок дня", NotificationManager.IMPORTANCE_HIGH).apply {
-                    description = "Ежедневное напоминание об уроке английского"
+                    description = "Ежедневное напоминание об уроке"
                 }
             )
         }
@@ -71,7 +71,7 @@ class ReminderReceiver : BroadcastReceiver() {
             )
             val n = android.app.Notification.Builder(context, Reminder.CHANNEL)
                 .setSmallIcon(R.drawable.ic_stat)
-                .setContentTitle("Время английского 🇬🇧")
+                .setContentTitle("Время урока 📚")
                 .setContentText("Урок дня ждёт: слова, правило, тренировка и говорение — 25 минут.")
                 .setContentIntent(open)
                 .setAutoCancel(true)

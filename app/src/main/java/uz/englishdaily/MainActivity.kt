@@ -31,6 +31,7 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
     private var recognizer: SpeechRecognizer? = null
     private var recognizerReady = false
     private var pendingListen = false
+    private var listenLang = "en-US"
     private val main = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -145,8 +146,8 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
         })
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US")
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "en-US")
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, listenLang)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, listenLang)
             putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
             putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5)
         }
@@ -174,8 +175,31 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
             }
         }
 
+        // Озвучка на нужном языке (en-US, uz-UZ, ru-RU)
         @JavascriptInterface
-        fun startListening() { main.post { beginListening() } }
+        fun speakIn(text: String, rate: Double, lang: String) {
+            main.post {
+                if (ttsReady) {
+                    tts?.language = Locale.forLanguageTag(lang)
+                    tts?.setSpeechRate(rate.toFloat())
+                    tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "say")
+                }
+            }
+        }
+
+        // Есть ли на телефоне голос для языка: "yes", "no" или "wait" (озвучка ещё не готова)
+        @JavascriptInterface
+        fun hasVoice(lang: String): String {
+            if (!ttsReady) return "wait"
+            val r = try { tts?.isLanguageAvailable(Locale.forLanguageTag(lang)) ?: -2 } catch (_: Exception) { -2 }
+            return if (r >= TextToSpeech.LANG_AVAILABLE) "yes" else "no"
+        }
+
+        @JavascriptInterface
+        fun startListening() { main.post { listenLang = "en-US"; beginListening() } }
+
+        @JavascriptInterface
+        fun startListeningIn(lang: String) { main.post { listenLang = lang; beginListening() } }
 
         @JavascriptInterface
         fun stopListening() { main.post { recognizer?.stopListening() } }
