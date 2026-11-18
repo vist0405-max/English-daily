@@ -19,6 +19,7 @@ import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.webkit.WebViewAssetLoader
+import org.json.JSONArray
 import org.json.JSONObject
 import java.util.Locale
 
@@ -126,8 +127,11 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
                 if (!t.isNullOrBlank()) send("partial", "text", t)
             }
             override fun onResults(results: Bundle?) {
-                val t = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.firstOrNull()
-                if (!t.isNullOrBlank()) send("final", "text", t)
+                val all = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION).orEmpty().filter { it.isNotBlank() }
+                if (all.isNotEmpty()) {
+                    val o = JSONObject().put("type", "final").put("text", all[0]).put("alts", JSONArray(all))
+                    main.post { web.evaluateJavascript("window.__native && window.__native(${o})", null) }
+                }
                 send("state", "state", "idle")
             }
             override fun onError(error: Int) {
@@ -144,7 +148,7 @@ class MainActivity : Activity(), TextToSpeech.OnInitListener {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US")
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "en-US")
             putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
-            putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
+            putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5)
         }
         r.startListening(intent)
     }

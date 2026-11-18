@@ -1,11 +1,11 @@
 "use strict";
 /* ================= English Daily — годовой курс ================= */
-const SYL=["Знакомство и to be","Повседневные слова","Настоящее время","Прошлое и будущее","Разговор: работа и общение","Разговор: поездки и мнение","Числа, даты и календарь","Дом и быт","Одежда, цвета и покупки","Тело и здоровье","Погода и сравнения","Транспорт и город","Хобби и свободное время",
-"Прошлое время: рассказы","Офис и совещания","Продажи и клиенты","Будущее: планы и прогнозы","Present Perfect: опыт","Путешествия: бронь и проблемы","Еда: готовка и количество","Письма и сообщения","Сравнения и выбор","Модальные глаголы: must, should","Деньги и банк","Технологии и телефон","Повторение полугодия",
-"Past Continuous","Переговоры: предложения","Условия: if + will","Фразовые глаголы","Здоровье и спорт","Люди и характер","Present Perfect или Past Simple","Пассивный залог","Маркетинг и реклама","Культура и праздники","Условия: if + would","Фразовые глаголы для работы","Повторение 3-го квартала",
-"Косвенная речь","Презентации","Переговоры: возражения","Who, which, that","-ing или to","Used to: как было раньше","Новости и экономика","Управление командой","Жалобы и решения","Small talk и нетворкинг","Собеседование и карьера","Планы и мечты","Итоги года"];
+const SYL=["Знакомство и to be","Повседневные слова","Настоящее время","Прошлое и будущее","О себе, друзья и приглашения","Поездки, мнение и любимые места","Числа, даты и календарь","Дом и быт","Одежда, цвета и покупки","Тело и здоровье","Погода и сравнения","Транспорт и город","Хобби и свободное время",
+"Прошлое время: рассказы","Школа, учёба и навыки","Услуги: почта, аптека, ремонт","Будущее: планы и прогнозы","Present Perfect: опыт","Путешествия: бронь и проблемы","Еда: готовка и количество","Письма и сообщения","Сравнения и выбор","Модальные глаголы: must, should","Деньги и платежи","Технологии и телефон","Повторение полугодия",
+"Past Continuous","Past Perfect: что было раньше","Условия: if + will","Фразовые глаголы","Здоровье, спорт и отдых","Люди и характер","Present Perfect или Past Simple","Пассивный залог","СМИ, соцсети и реклама","Культура и праздники","Условия: if + would","Фразовые глаголы и идиомы","Повторение 3-го квартала",
+"Косвенная речь","Догадки: must have, might have","Дискуссии и аргументы","Who, which, that","-ing или to","Used to: как было раньше","Общество и экология","Сожаления: wish и смешанные условия","Жалобы и решения","Small talk и знакомства","Have something done и пассив B2","Планы и мечты","Итоги года"];
 const MONTHS=[[1,4],[5,8],[9,13],[14,17],[18,21],[22,26],[27,30],[31,34],[35,39],[40,43],[44,47],[48,52]];
-const LEVELS=["A0 → A1","A0 → A1","A0 → A1","A1 → A2","A1 → A2","A1 → A2","A2","A2","A2","A2 → B1","A2 → B1","A2 → B1"];
+const LEVELS=["A0 → A1","A0 → A1","A1","A1 → A2","A2","A2 → B1","B1","B1","B1 → B2","B1 → B2","B2","B2"];
 const TOTAL=365;
 const WK={};(window.WEEKS||[]).forEach(w=>{WK[w.n]=w});
 const TDEF={
@@ -28,7 +28,7 @@ function weekWords(n){const wk=WK[n];return wk?[].concat(...wk.L.map(l=>l.w.map(
 function dayWords(d){const f=info(d);if(f.type==="L")return f.les.w.map(W);if(f.type==="R")return weekWords(f.week);if(f.type==="F")return ALLW.slice();return[]}
 function dayPhrases(d){const f=info(d);if(f.type==="L")return f.les.ph.map(P);if(f.type==="R")return WK[f.week].L.map(l=>P(l.ph[1]||l.ph[0]));return[]}
 function dayQuestions(d){const f=info(d);if(f.type==="T")return(WK[f.week].q||[]).map(P);if(f.type==="F"){const ws=Object.keys(WK).map(Number);return shuffle(ws).slice(0,6).map(n=>P(WK[n].q[0]))}return[]}
-function dayTopic(d){const f=info(d);if(f.type==="L")return f.les.topic;if(f.type==="F")return"the learner's year of learning English, work, family, plans and dreams";return WK[f.week].topic}
+function dayTopic(d){const f=info(d);if(f.type==="L")return f.les.topic;if(f.type==="F")return"the learner's year of learning English, everyday life, family, travel, opinions, plans and dreams";return WK[f.week].topic}
 
 /* ---------- Утилиты ---------- */
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -36,7 +36,49 @@ const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(M
 const norm=s=>String(s).toLowerCase().replace(/[’']/g,"'").replace(/[^a-z0-9' ]+/g," ").replace(/\s+/g," ").trim();
 const ymd=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 const today=()=>ymd(new Date());
-function similarity(target,heard){const t=norm(target).split(" ").filter(Boolean),h=norm(heard).split(" ").filter(Boolean);if(!t.length)return 0;const pool=h.slice();let m=0;t.forEach(w=>{const k=pool.indexOf(w);if(k>-1){m++;pool.splice(k,1)}});return Math.round(m/t.length*100)}
+/* ---------- Числа: распознавание речи пишет «5», «10:30», «2025», «1st» — переводим в слова ---------- */
+const ONES=["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
+const TENS=["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
+function under100(n){return n<20?ONES[n]:TENS[Math.floor(n/10)]+(n%10?" "+ONES[n%10]:"")}
+function under1000(n,and){const h=Math.floor(n/100),r=n%100;if(!h)return under100(r);return ONES[h]+" hundred"+(r?(and?" and ":" ")+under100(r):"")}
+function cardinal(n,and){
+  if(n===0)return"zero";const parts=[];
+  [[1e9,"billion"],[1e6,"million"],[1e3,"thousand"]].forEach(([v,name])=>{if(n>=v){parts.push(under1000(Math.floor(n/v),and)+" "+name);n%=v}});
+  if(n)parts.push((and&&parts.length&&n<100?"and ":"")+under1000(n,and));
+  return parts.join(" ");
+}
+const ORD={one:"first",two:"second",three:"third",five:"fifth",eight:"eighth",nine:"ninth",twelve:"twelfth"};
+function ordinal(n){const w=cardinal(n).split(" ");const l=w.pop();w.push(ORD[l]||(/y$/.test(l)?l.slice(0,-1)+"ieth":l+"th"));return w.join(" ")}
+function yearWords(n){const a=Math.floor(n/100),b=n%100;if(b===0)return under100(a)+" hundred";return under100(a)+" "+(b<10?"oh "+ONES[b]:under100(b))}
+function digitsWords(str){return str.split("").map(c=>c==="0"?"zero oh":ONES[+c]).join(" ")}
+// rich=true (для распознанной речи): добавляем все варианты прочтения — лишние слова не мешают совпадению
+function numToWords(str,rich){
+  const n=parseInt(str,10);if(!isFinite(n))return str;
+  if(str.length>1&&str[0]==="0"||str.length>9)return digitsWords(str);
+  let out=cardinal(n,false);
+  if(rich){
+    out+=" "+cardinal(n,true);
+    if(n>=1000&&n<=2099)out+=" "+yearWords(n);
+    if(str.length>=2)out+=" "+digitsWords(str);
+    if(/^1\d\d$|^1\d{3}$/.test(str))out+=" a";
+  }
+  return out;
+}
+const HOMO={for:"four",fore:"four",to:"two",too:"two",won:"one",ate:"eight",okay:"ok",mister:"mr",missus:"mrs"};
+function spoken(s,rich){
+  s=String(s).toLowerCase().replace(/[’']/g,"'");
+  s=s.replace(/(\d),(?=\d{3}\b)/g,"$1");                     // 1,000 → 1000
+  s=s.replace(/\b([ap])\.\s?m\.?/g,"$1m");                     // a.m. → am
+  s=s.replace(/\b(\d{1,2}):(\d{2})\b/g,(_,h,m)=>{h=+h;const mm=+m;return " "+cardinal(h)+" "+(mm===0?"o'clock"+(rich?" hundred":""):(mm<10?"oh "+ONES[mm]+(rich?" zero":""):under100(mm)))+" "});
+  s=s.replace(/\b(\d+)(st|nd|rd|th)\b/g,(_,d)=>" "+ordinal(+d)+" ");
+  s=s.replace(/(\d+)\.(\d+)/g,(_,a,b)=>" "+numToWords(a,rich)+" point "+digitsWords(b).replace(/ oh/g,"")+" ");
+  s=s.replace(/\$\s?(\d+)/g,"$1 dollars").replace(/€\s?(\d+)/g,"$1 euros").replace(/£\s?(\d+)/g,"$1 pounds");
+  s=s.replace(/(\d+)\s?%/g,"$1 percent").replace(/&/g," and ").replace(/\+/g," plus ");
+  s=s.replace(/\d+/g,d=>" "+numToWords(d,rich)+" ");
+  return norm(s).split(" ").filter(Boolean).map(w=>HOMO[w]||w);
+}
+function similarity(target,heard){const t=spoken(target,false),h=spoken(heard,true);if(!t.length)return 0;const pool=h.slice();let m=0;t.forEach(w=>{const k=pool.indexOf(w);if(k>-1){m++;pool.splice(k,1)}});return Math.round(m/t.length*100)}
+function bestMatch(target,variants){let best={score:0,heard:variants[0]||""};variants.forEach(v=>{if(!v)return;const sc=similarity(target,v);if(sc>best.score)best={score:sc,heard:v}});return best}
 
 /* ---------- Прогресс ---------- */
 const KEY="english-daily-v2",OLD="english-daily-v1";
@@ -47,12 +89,26 @@ function migrate(o){ // из 30-дневной версии
   Object.keys(o.done).forEach(k=>{const L=+k,wk=Math.ceil(L/5),pos=(L-1)%5+1;n.done[(wk-1)*7+pos]=o.done[k]});
   return n;
 }
-try{const raw=localStorage.getItem(KEY)||localStorage.getItem(OLD);if(raw){const o=migrate(JSON.parse(raw));if(o)S=o}}catch(e){}
-if(!Array.isArray(S.act))S.act=[];
-let dbRef=null,writing=false,pending=false;
+/* ---------- Семья: у каждого свой профиль и свой прогресс ---------- */
+const PKEY="english-daily-profiles";
+let PR={list:[{id:"p1",name:"Профиль 1",av:"🙂"}],cur:"p1"};
+try{const r=localStorage.getItem(PKEY);if(r){const o=JSON.parse(r);if(o&&Array.isArray(o.list)&&o.list.length)PR=o}}catch(e){}
+if(!PR.list.some(p=>p.id===PR.cur))PR.cur=PR.list[0].id;
+const AVS=["🙂","👩","👨","👧","👦","👵","👴","🧑","🐱","🦊","🐻","🌟"];
+const pkey=id=>id==="p1"?KEY:KEY+":"+id;   // первый профиль хранится по старому ключу — прогресс не теряется
+const curProfile=()=>PR.list.find(p=>p.id===PR.cur)||PR.list[0];
+function saveProfiles(){try{localStorage.setItem(PKEY,JSON.stringify(PR))}catch(e){}}
+function loadProgress(id){
+  let o=null;
+  try{const raw=localStorage.getItem(pkey(id))||(id==="p1"?localStorage.getItem(OLD):null);if(raw)o=migrate(JSON.parse(raw))}catch(e){}
+  S=o||{v:2,done:{},act:[]};if(!S.done)S.done={};if(!Array.isArray(S.act))S.act=[];
+}
+function progressOf(id){if(id===PR.cur)return S;try{const raw=localStorage.getItem(pkey(id));if(raw)return migrate(JSON.parse(raw))||{done:{},act:[]}}catch(e){}return{done:{},act:[]}}
+loadProgress(PR.cur);
+let dbRef=null,writing=false,pending=false,dbRoot=null;
 function merge(o){o=migrate(o);if(!o)return;Object.keys(o.done).forEach(d=>{const a=S.done[d]||(S.done[d]={}),b=o.done[d]||{};Object.keys(TDEF).forEach(k=>{if(b[k])a[k]=1});a.score=Math.max(a.score||0,b.score||0);a.ai=Math.max(a.ai||0,b.ai||0);["ph","q"].forEach(f=>{if(Array.isArray(b[f])){a[f]=a[f]||[];b[f].forEach((v,i)=>{if(v)a[f][i]=true})}})});(o.act||[]).forEach(x=>{if(S.act.indexOf(x)<0)S.act.push(x)})}
 async function pushDb(){if(!dbRef)return;if(writing){pending=true;return}writing=true;try{await dbRef.set(JSON.parse(JSON.stringify(S)))}catch(e){}writing=false;if(pending){pending=false;pushDb()}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}pushDb()}
+function save(){try{localStorage.setItem(pkey(PR.cur),JSON.stringify(S))}catch(e){}pushDb()}
 function dd(d){return S.done[d]||(S.done[d]={})}
 function touch(){const t=today();if(S.act.indexOf(t)<0)S.act.push(t)}
 function mark(d,k){dd(d)[k]=1;touch();save()}
@@ -65,7 +121,7 @@ const monthOf=n=>MONTHS.findIndex(m=>n>=m[0]&&n<=m[1]);
 /* ---------- Озвучка, распознавание речи, ИИ ---------- */
 const NATIVE=!!(window.Android&&typeof window.Android.speak==="function");
 let tts=null,dict=null,sample=null,micDenied=false;
-let listening=false,heard="",partial="",listenFor=null;
+let listening=false,heard="",partial="",listenFor=null,heardAlts=[];
 async function say(text){
   if(tts){try{await tts.speak(text,{language:"en",rate:0.85});return}catch(e){if(e&&e.code==="busy")return;if(e&&e.code==="not_granted")tts=null}}
   try{if("speechSynthesis" in window){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="en-US";u.rate=0.85;const vs=speechSynthesis.getVoices();const v=vs.find(v=>/^en[-_]US/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u)}}catch(e){}
@@ -73,7 +129,7 @@ async function say(text){
 function wireDict(d){
   dict=d;if(!d)return;
   d.onPartial(({text})=>{partial=text||"";updateLive()});
-  d.onFinal(({text})=>{if(text)heard=(heard+" "+text).trim();partial="";updateLive()});
+  d.onFinal(({text,alts})=>{const base=heard;if(text)heard=(base+" "+text).trim();if(Array.isArray(alts))heardAlts=heardAlts.concat(alts.map(a=>(base+" "+a).trim()));partial="";updateLive()});
   d.onState(({state})=>{if(state==="listening"){listening=true}else if(state==="idle"){if(listening){listening=false;finishListen()}}});
 }
 if(NATIVE){
@@ -86,7 +142,7 @@ if(NATIVE){
   window.__native=function(ev){
     if(typeof ev==="string"){try{ev=JSON.parse(ev)}catch(e){return}}
     if(ev.type==="partial"&&nd._p)nd._p({text:ev.text});
-    else if(ev.type==="final"&&nd._f)nd._f({text:ev.text});
+    else if(ev.type==="final"&&nd._f)nd._f({text:ev.text,alts:ev.alts});
     else if(ev.type==="state"){if(ev.state==="listening"&&nd._st){nd._st.res();nd._st=null}if(nd._s)nd._s({state:ev.state})}
     else if(ev.type==="error"){if(nd._st){nd._st.rej({code:ev.code});nd._st=null}if(nd._s)nd._s({state:"idle"})}
   };
@@ -97,16 +153,21 @@ if(NATIVE){
   claude.use("sample").then(s=>{sample=s;render()}).catch(()=>{});
   Promise.all([claude.use("db"),claude.use("user")]).then(async([db,user])=>{
     if(!db||!user)return;const id=await user.id();if(!id)return;
-    dbRef=db.doc("data/users/"+id+"/progress");
-    const snap=await dbRef.get();
-    if(snap.exists){merge(snap.data());try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}render()}
-    if(Object.keys(S.done).length)pushDb();
+    dbRoot={db,id};await attachDb();
   }).catch(()=>{});
 }
+async function attachDb(){
+  if(!dbRoot)return;const pid=PR.cur;
+  dbRef=dbRoot.db.doc("data/users/"+dbRoot.id+"/"+(pid==="p1"?"progress":"progress-"+pid));
+  try{const snap=await dbRef.get();if(pid!==PR.cur)return;
+    if(snap.exists){merge(snap.data());try{localStorage.setItem(pkey(pid),JSON.stringify(S))}catch(e){}render()}
+    if(Object.keys(S.done).length)pushDb()}catch(e){}
+}
+function switchProfile(id){if(id===PR.cur)return;PR.cur=id;saveProfiles();loadProgress(id);dbRef=null;attachDb();SPres={};Q=null;openMonth=null}
 function startMic(target){
   if(!dict)return;
   if(listening){dict.stop().catch(()=>{});return}
-  listenFor=target;heard="";partial="";
+  listenFor=target;heard="";partial="";heardAlts=[];
   dict.start().catch(e=>{listening=false;listenFor=null;if(e&&e.code==="not_granted")micDenied=true;render()});
   listening=true;render();
 }
@@ -116,8 +177,8 @@ function finishListen(){
   const t=listenFor;listenFor=null;const said=liveText();
   if(!t){render();return}
   if(t.kind==="phrase"){
-    const target=dayPhrases(t.day)[t.i].en,sc=said?similarity(target,said):0;
-    SPres[t.day+":"+t.i]={score:sc,heard:said};
+    const target=dayPhrases(t.day)[t.i].en,best=bestMatch(target,[said].concat(heardAlts)),sc=best.score;
+    SPres[t.day+":"+t.i]={score:sc,heard:best.heard||said};
     if(sc>=70){const o=dd(t.day);o.ph=o.ph||[];o.ph[t.i]=true;touch();save();checkSpeak(t.day)}
   }else if(t.kind==="q"){
     const n=norm(said).split(" ").filter(Boolean).length;
@@ -140,7 +201,9 @@ function taskRows(d){const f=info(d),o=S.done[d]||{};return TYPES[f.type].map(k=
 function dayLabel(d){const f=info(d);return f.type==="F"?"День 365":`День ${d} · неделя ${f.week}`}
 function vHome(){
   const c=curDay(),f=info(c),dc=doneCount(),mi=monthOf(f.week);
-  let h=`<div class="card hero"><div class="row between"><div><div class="mute small">English Daily · курс на год</div><h1>Английский с нуля</h1></div><div style="font-size:34px">🇬🇧</div></div>
+  const me=curProfile();
+  let h=`<button class="who" data-act="family"><span>${esc(me.av)}</span><b>${esc(me.name)}</b><span class="mute small">${PR.list.length>1?"сменить ▾":"👨‍👩‍👧 семья"}</span></button>
+  <div class="card hero"><div class="row between"><div><div class="mute small">English Daily · курс на год</div><h1>Английский с нуля до B2</h1></div><div style="font-size:34px">🇬🇧</div></div>
   <div class="stat"><div><b>🔥 ${streak()}</b><span class="small mute">дней подряд</span></div><div><b>${dc}/${TOTAL}</b><span class="small mute">дней пройдено</span></div></div>
   <div class="bar"><i style="width:${Math.max(1,Math.round(dc/TOTAL*100))}%"></i></div><p class="small mute" style="margin-top:8px">Месяц ${mi+1} из 12 · уровень ${LEVELS[mi]}</p></div>`;
   h+=`<div class="card"><span class="tag">Неделя ${f.week}: ${esc(SYL[f.week-1])}</span><h2 style="margin-top:8px">${dayLabel(c)}</h2><p style="font-weight:600;margin-top:2px">${esc(f.title)}</p>`;
@@ -151,6 +214,26 @@ function vHome(){
   h+=`</div>`+reminderCard();
   if(!NATIVE)h+=`<div class="card"><details><summary>📲 Как поставить на главный экран Samsung</summary><p class="small">Откройте страницу в <b>Chrome</b> → меню <b>⋮</b> → <b>«Добавить на главный экран»</b>. В Chrome работают микрофон и озвучка.</p></details></div>`;
   return h;
+}
+let FAM={edit:null,av:"👩"};
+function vFamily(){
+  let h=`<div class="top"><button class="icon" data-act="tab" data-t="home">←</button><h2>👨‍👩‍👧 Семья</h2></div><p class="mute small">У каждого члена семьи свой профиль: свой прогресс, своя серия дней и свой текущий урок. Выберите, кто сейчас занимается.</p><div class="card">`;
+  PR.list.forEach(p=>{const o=progressOf(p.id);let c=0;for(let d=1;d<=TOTAL;d++){const x=o.done&&o.done[d];if(x&&TYPES[info(d).type].every(k=>x[k]))c++}
+    const on=p.id===PR.cur;
+    h+=`<div class="prof ${on?"on":""}"><button class="pick" data-act="useprof" data-p="${esc(p.id)}"><span class="av">${esc(p.av)}</span><span style="flex:1"><b>${esc(p.name)}</b><span class="mute small">${c}/${TOTAL} дней${on?" · занимается сейчас":""}</span></span></button><button class="icon" data-act="editprof" data-p="${esc(p.id)}" aria-label="Изменить">✏️</button></div>`;
+    if(FAM.edit===p.id)h+=profForm(p);
+  });
+  h+=`</div>`;
+  if(FAM.edit==="new")h+=`<div class="card"><h3>Новый профиль</h3>${profForm(null)}</div>`;
+  else if(PR.list.length<8)h+=`<button class="btn" data-act="addprof">+ Добавить члена семьи</button>`;
+  return h+`<p class="mute small" style="margin-top:14px">Профили хранятся на этом телефоне. Курс одинаковый для всех — общий английский от нуля до уровня B2.</p>`;
+}
+function profForm(p){
+  const av=FAM.av;
+  let h=`<div class="pform"><input type="text" id="pname" maxlength="20" placeholder="Имя, например: Мама" value="${esc(p?p.name:"")}"><div class="avs">${AVS.map(a=>`<button class="${a===av?"on":""}" data-act="pav" data-a="${a}">${a}</button>`).join("")}</div>`;
+  h+=`<button class="btn" data-act="saveprof" data-p="${p?esc(p.id):""}">Сохранить</button>`;
+  if(p&&PR.list.length>1)h+=`<button class="btn ghost" data-act="delprof" data-p="${esc(p.id)}">🗑 Удалить профиль и его прогресс</button>`;
+  return h+`</div>`;
 }
 function reminderCard(){
   if(NATIVE){let t="20:00";try{t=window.Android.getReminder()||"20:00"}catch(e){}
@@ -297,14 +380,14 @@ function vChat(){
 }
 
 /* ---------- Чат с ИИ ---------- */
-function lvlOf(week){if(week<=13)return["absolute beginner (A0–A1)","only the most common words, sentences of 4–8 words"];if(week<=26)return["beginner (A1–A2)","simple common words, sentences up to 12 words"];if(week<=39)return["elementary (A2)","everyday vocabulary, sentences up to 15 words"];return["pre-intermediate (A2–B1)","natural but clear English, sentences up to 18 words"]}
+function lvlOf(week){if(week<=13)return["absolute beginner (A0–A1)","only the most common words, sentences of 4–8 words"];if(week<=21)return["elementary (A1–A2)","simple common words, sentences up to 12 words"];if(week<=34)return["pre-intermediate (A2–B1)","everyday vocabulary, sentences up to 15 words"];if(week<=43)return["intermediate (B1–B2)","natural English with some idioms and phrasal verbs, sentences up to 20 words"];return["upper-intermediate (B2)","natural, fluent conversational English with idioms, phrasal verbs and complex grammar"]}
 function openChat(opts){
   CH=Object.assign({msgs:[],busy:false,err:"",draft:"",draftBase:"",userCount:0},opts);
   go({tab:V.tab,view:"chat",from:V});aiTurn();
 }
 function sysPrompt(){
   const [lv,rule]=lvlOf(CH.week||info(curDay()).week);
-  return `You are a warm, patient English conversation partner in a language-learning app. The learner is a Russian-speaking adult from Uzbekistan who works in sales. Level: ${lv}.
+  return `You are a warm, patient English conversation partner in a language-learning app. The learner is a Russian-speaking person learning general English (the goal is comfortable B2 conversation). Do not assume anything about their job, city or personal life — ask instead. Level: ${lv}.
 Topic of this conversation: ${CH.topic}.
 Rules:
 - Use ${rule}. Be friendly and encouraging.
@@ -333,7 +416,7 @@ async function aiTurn(){
     const lastMe=[...CH.msgs].reverse().find(m=>m.role==="me");
     if(lastMe&&r.fix&&!lastMe.fixed)lastMe.fix=r.fix;
     if(lastMe)lastMe.fixed=true;
-    CH.msgs.push({role:"ai",en:String(r.en),ru:String(r.ru||""),showRu:(CH.week||1)<=8});
+    CH.msgs.push({role:"ai",en:String(r.en),ru:String(r.ru||""),showRu:(CH.week||1)<=13});
     CH.busy=false;render();scrollChat();
     if(autoSpeak)say(String(r.en));
   }catch(e){
@@ -364,6 +447,7 @@ function render(){
   else if((v==="p"||v==="rp"||v==="fp"||v==="review")&&Q)h=vPractice();
   else if(v==="s"||v==="rs")h=vSpeak();
   else if(v==="t"||v==="ft")h=vTalkDay();
+  else if(v==="family")h=vFamily();
   else if(V.tab==="plan")h=vPlan();
   else if(V.tab==="dict")h=vDict();
   else if(V.tab==="talk")h=vTalk();
@@ -380,6 +464,19 @@ document.addEventListener("click",e=>{
   const a=b.dataset.act,d=+b.dataset.d;
   switch(a){
     case"tab":go({tab:b.dataset.t});break;
+    case"family":FAM={edit:null,av:"👩"};go({tab:"home",view:"family"});break;
+    case"useprof":switchProfile(b.dataset.p);go({tab:"home"});break;
+    case"addprof":FAM={edit:"new",av:AVS[PR.list.length%AVS.length]};render();setTimeout(()=>{const i=document.getElementById("pname");if(i)i.focus()},30);break;
+    case"editprof":{const p=PR.list.find(x=>x.id===b.dataset.p);FAM=FAM.edit===p.id?{edit:null,av:"👩"}:{edit:p.id,av:p.av};render();break}
+    case"pav":{const i=document.getElementById("pname"),nm=i?i.value:"";FAM.av=b.dataset.a;render();const j=document.getElementById("pname");if(j)j.value=nm;break}
+    case"saveprof":{const i=document.getElementById("pname"),nm=(i&&i.value.trim())||"";if(!nm){if(i)i.focus();break}
+      if(b.dataset.p){const p=PR.list.find(x=>x.id===b.dataset.p);p.name=nm;p.av=FAM.av;saveProfiles();FAM={edit:null,av:"👩"};render()}
+      else{let n=PR.list.length+1;while(PR.list.some(x=>x.id==="p"+n))n++;const id="p"+n;PR.list.push({id,name:nm,av:FAM.av});saveProfiles();switchProfile(id);go({tab:"home"})}
+      break}
+    case"delprof":{const id=b.dataset.p,p=PR.list.find(x=>x.id===id);if(!p||PR.list.length<2)break;
+      if(!confirm("Удалить профиль «"+p.name+"» и весь его прогресс?"))break;
+      PR.list=PR.list.filter(x=>x.id!==id);try{localStorage.removeItem(pkey(id))}catch(e){}
+      if(PR.cur===id){PR.cur="";switchProfile(PR.list[0].id)}else saveProfiles();FAM={edit:null,av:"👩"};render();break}
     case"back":go({tab:V.tab});break;
     case"month":openMonth=openMonth===+b.dataset.m?-1:+b.dataset.m;render();break;
     case"openday":go({tab:V.tab,view:"day",d});break;
@@ -391,7 +488,7 @@ document.addEventListener("click",e=>{
     case"pick":{if(Q.ans)break;const it=Q.items[Q.i],k=+b.dataset.k;Q.pick=k;Q.ans=true;Q.right=it.opts[k].en===it.w.en;if(Q.right)Q.score++;if(it.dir==="ru")say(it.w.en);render();break}
     case"build":Q.built.push(+b.dataset.k);render();break;
     case"unbuild":Q.built.splice(+b.dataset.k,1);render();break;
-    case"checkb":{const it=Q.items[Q.i];const s=Q.built.map(i=>it.toks[i]).join(" ");Q.ans=true;Q.right=norm(s)===norm(it.p.en);if(Q.right)Q.score++;say(it.p.en);render();break}
+    case"checkb":{const it=Q.items[Q.i];const s=Q.built.map(i=>it.toks[i]).join(" ");Q.ans=true;Q.right=spoken(s).join(" ")===spoken(it.p.en).join(" ");if(Q.right)Q.score++;say(it.p.en);render();break}
     case"nextq":{Q.i++;Q.ans=false;Q.pick=null;Q.built=[];Q.right=false;
       if(Q.i>=Q.items.length&&Q.d){const pct=Q.score/Q.items.length,o=dd(Q.d);o.score=Math.max(o.score||0,Math.round(pct*100));if(pct>=0.6)mark(Q.d,Q.k);else save()}
       render();window.scrollTo(0,0);break}
@@ -402,7 +499,7 @@ document.addEventListener("click",e=>{
     case"selfok":{const o=dd(d);o.ph=o.ph||[];o.ph[+b.dataset.i]=true;touch();save();checkSpeak(d);render();break}
     case"qok":{const o=dd(d);o.q=o.q||[];o.q[+b.dataset.i]=true;touch();save();checkTalk(d);render();break}
     case"chat":{const f=info(d);const need=(f.type==="T"||f.type==="F")?5:0;openChat({day:d,week:f.week,topic:dayTopic(d),title:f.type==="L"?f.title:f.type==="F"?"Итоги года":SYL[f.week-1],need});break}
-    case"chatw":{const n=+b.dataset.w;openChat({day:0,week:n||info(curDay()).week,topic:n?WK[n].topic:"any everyday topic the learner likes (work, family, travel, food, hobbies)",title:n?SYL[n-1]:"Свободная тема",need:0});break}
+    case"chatw":{const n=+b.dataset.w;openChat({day:0,week:n||info(curDay()).week,topic:n?WK[n].topic:"any everyday topic the learner likes (family, travel, food, hobbies, films, news, plans)",title:n?SYL[n-1]:"Свободная тема",need:0});break}
     case"chatback":{const f=V.from;if(listening&&dict)dict.stop().catch(()=>{});CH=null;go(f&&f.view?f:{tab:V.tab});break}
     case"tru":{const m=CH.msgs[+b.dataset.i];m.showRu=!m.showRu;render();break}
     case"send":sendChat();break;
@@ -414,6 +511,7 @@ document.addEventListener("click",e=>{
 // Кнопка «Назад» на Android
 window.__back=function(){
   if(V.view==="chat"){const f=V.from;if(listening&&dict)dict.stop().catch(()=>{});CH=null;go(f&&f.view?f:{tab:V.tab});return true}
+  if(V.view==="family"){go({tab:"home"});return true}
   if(V.view&&V.view!=="day"&&V.d){go({tab:V.tab,view:"day",d:V.d});return true}
   if(V.view){go({tab:V.tab});return true}
   if(V.tab!=="home"){go({tab:"home"});return true}

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>English Daily — английский с нуля</title>
+<title>English Daily — английский с нуля до B2</title>
 <meta name="theme-color" content="#1f2a44">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
@@ -86,7 +86,7 @@ p{margin:6px 0}
 .fix{align-self:flex-end;max-width:86%;background:var(--warn);border-radius:12px;padding:8px 11px;font-size:14px}
 .compose{position:sticky;bottom:84px;display:flex;gap:8px;align-items:flex-end;background:var(--bg);padding:8px 0}
 textarea{flex:1;min-height:44px;max-height:120px;resize:none;border-radius:14px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:16px Onest,sans-serif;padding:10px 12px}
-input[type=search],input[type=time]{width:100%;border-radius:14px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:16px Onest,sans-serif;padding:11px 13px}
+input[type=search],input[type=time],input[type=text]{width:100%;border-radius:14px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:16px Onest,sans-serif;padding:11px 13px}
 .day{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line);cursor:pointer;width:100%;background:none;border-left:0;border-right:0;border-bottom:0;text-align:left;color:inherit;font:inherit}
 .num{width:34px;height:34px;border-radius:50%;background:var(--line);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex:none}
 .day.ok .num{background:var(--ok);color:#fff}
@@ -97,6 +97,18 @@ input[type=search],input[type=time]{width:100%;border-radius:14px;border:1.5px s
 .tag{display:inline-block;font-size:12px;font-weight:600;padding:3px 9px;border-radius:8px;background:var(--soft);color:var(--acc)}
 .topics{display:flex;flex-wrap:wrap;gap:8px}
 .topics button{padding:9px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:500 14px Onest,sans-serif;cursor:pointer}
+.who{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 8px;font:inherit;color:var(--ink);cursor:pointer;margin-bottom:2px}
+.who span:first-child{font-size:20px}
+.prof{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.prof:first-child{border-top:0}
+.prof .pick{flex:1;display:flex;align-items:center;gap:12px;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer;padding:0}
+.prof .pick b{display:block}
+.prof .av{width:44px;height:44px;border-radius:50%;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:24px;flex:none}
+.prof.on .av{background:var(--acc);box-shadow:0 0 0 3px var(--soft)}
+.pform{padding:6px 0 12px}
+.avs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.avs button{width:42px;height:42px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);font-size:21px;cursor:pointer;padding:0}
+.avs button.on{border-color:var(--acc);background:var(--soft)}
 nav.tabs{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;padding:6px 0 calc(6px + env(safe-area-inset-bottom));z-index:5}
 nav.tabs button{flex:1;max-width:130px;background:none;border:0;color:var(--mute);font:500 12px Onest,sans-serif;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px;cursor:pointer}
 nav.tabs button span{font-size:20px}
